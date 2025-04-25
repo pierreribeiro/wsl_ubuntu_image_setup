@@ -32,9 +32,9 @@ COMMENT
 apt install software-properties-common -y
 apt-add-repository -y ppa:ansible/ansible
 apt update && apt -y upgrade
-apt install ansible ansible-dev-tools -y
 apt install net-tools -y
-apt install python3-pip -y
+apt install ansible -y
+apt install pipx -y
 pipx install ansible-dev-tools
 pipx ensurepath
 
