@@ -35,7 +35,8 @@ apt update && apt -y upgrade
 apt install ansible ansible-dev-tools -y
 apt install net-tools -y
 apt install python3-pip -y
-
+pipx install ansible-dev-tools
+pipx ensurepath
 
 # Pull down from repository and run playbook
 cd /
