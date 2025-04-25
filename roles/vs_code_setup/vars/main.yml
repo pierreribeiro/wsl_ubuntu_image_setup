@@ -1,0 +1,3 @@
+---
+# vars file for wsl_network_setup
+v_vs_code_setup_username: "required"

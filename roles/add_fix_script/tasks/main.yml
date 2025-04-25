@@ -1,0 +1,16 @@
+---
+- name: Create Initial Ansible Directory
+  ansible.builtin.file:
+    path: /ansible
+    state: directory
+    mode: '0755'
+    owner: "{{ v_add_fix_script_username }}"
+    group: "{{ v_add_fix_script_username }}"
+
+- name: Copy Fix Script To Ansible Directory
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/fix.sh.j2"
+    dest: /ansible/fix.sh
+    mode: '0775'
+    owner: "{{ v_add_fix_script_username }}"
+    group: "{{ v_add_fix_script_username }}"

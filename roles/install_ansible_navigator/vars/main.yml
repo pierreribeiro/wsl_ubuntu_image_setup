@@ -1,0 +1,3 @@
+---
+# vars file for install_ansible_navigator
+v_install_ansible_navigator_username: "required"

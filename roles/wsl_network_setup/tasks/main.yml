@@ -1,0 +1,40 @@
+---
+- name: Create initial directories for wsl
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ v_wsl_network_setup_username }}"
+    group: "{{ v_wsl_network_setup_username }}"
+  loop:
+    - '/ansible'
+    - '/ansible/default_settings'
+    - '/ansible/default_settings/wsl'
+
+- name: Copy resolv.conf to default settings
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/resolv.conf"
+    dest: /ansible/default_settings/wsl/resolv.conf
+    mode: '0644'
+    owner: "{{ v_wsl_network_setup_username }}"
+    group: "{{ v_wsl_network_setup_username }}"
+
+- name: Copy resolv.conf to actual settings
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/resolv.conf"
+    dest: /etc/resolv.conf
+    mode: '0644'
+
+- name: Copy wsl.conf to default settings
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/wsl.conf.j2"
+    dest: /ansible/default_settings/wsl/wsl.conf
+    mode: '0644'
+    owner: "{{ v_wsl_network_setup_username }}"
+    group: "{{ v_wsl_network_setup_username }}"
+
+- name: Copy wsl.conf to actual settings
+  ansible.builtin.template :
+    src: "{{ role_path }}/templates/wsl.conf.j2"
+    dest: /etc/wsl.conf
+    mode: '0644'

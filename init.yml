@@ -1,0 +1,73 @@
+---
+- name: Initialize WSL Environment
+  hosts: localhost
+  gather_facts: true
+  vars:
+    dev_username: "iacdev"
+    admin_group: "iacadmin"
+  tasks:
+    - name: Create Main User Role
+      ansible.builtin.include_role:
+        name: create_main_user
+      vars:
+        v_create_main_user_admin_group: "{{ admin_group }}"
+        v_create_main_user_username: "{{ dev_username }}"
+
+    - name: Create Initial Ansible Directory
+      ansible.builtin.file:
+        path: /ansible
+        state: directory
+        mode: '0755'
+        owner: "{{ dev_username }}"
+        group: "{{ dev_username }}"
+
+    - name: Add Fix Script
+      ansible.builtin.include_role:
+        name: add_fix_script
+      vars:
+        v_add_fix_script_username: "{{ dev_username  }}"
+
+    - name: Setup WSL Network Settings
+      ansible.builtin.include_role:
+        name: wsl_network_setup
+      vars:
+        v_wsl_network_setup_username: "{{ dev_username }}"
+
+    - name: Install Certificates
+      ansible.builtin.include_role:
+        name: load_certificates
+
+    - name: Install podman for Ubuntu
+      ansible.builtin.include_role:
+        name: install_ podman_for_ubuntu
+      vars:
+        v_podman_for_ubuntu_os_version: "{{ hostvars[inventory_hostname].ansible_distribution_version }}"
+
+    - name: Install python3-pip
+      ansible.builtin.apt:
+        pkg:
+        - python3-pip
+
+    - name: Install Ansible Navigator
+      ansible.builtin.include_role:
+        name: install_ansible_navigator
+      vars:
+        v_install_ansible_navigator_username: "{{ dev_username }}"
+
+    - name: Install ansible python package (already done since running it)
+      pip:
+        name: ansible
+
+    - name: Install ansible-lint python package
+      pip:
+        name: ansible-lint
+
+    - name: Install ansible-builder python package
+      pip:
+        name: ansible-builder
+
+    - name: Setup VS Code Settings
+      ansible.builtin.include_role:
+        name: vs_code_setup
+      vars:
+        v_vs_code_setup_username: "{{ dev_username }}"

@@ -1,0 +1,23 @@
+---
+- name: Ensure admin group exists
+  ansible.builtin.group:
+    name: "{{ v_create_main_user_admin_group }}"
+    state: present
+
+- name: Allow admin group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%{{ v_create_main_user_admin_group }}'
+    line: '%{{ v_create_main_user_admin_group }} ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: Create dev user to admin group
+  ansible.builtin.user:
+    name: "{{ v_create_main_user_username }}"
+    expires: -1
+    groups: "{{ v_create_main_user_admin_group }}"
+    shell: /bin/bash
+    append: yes
+    state: present
+    createhome: yes

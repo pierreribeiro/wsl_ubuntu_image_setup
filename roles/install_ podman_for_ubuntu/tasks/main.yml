@@ -1,0 +1,37 @@
+---
+- name: Create the /dev/mqueue directory
+  ansible.builtin.file:
+    path: /dev/mqueue
+    state: directory
+
+- name: Update the ubuntu package index - equivalent of "apt-get update"
+  apt:
+    update_cache: yes
+
+- name: Install system dependencies for podman
+  ansible.builtin.apt:
+    pkg:
+    - curl
+    - wget
+    - gnupg2
+
+# Instructions from here: https://ansible-navigator.readthedocs.io/en/latest/installation/#setup-windows-subsystem-for-linux-2-with-ubuntu
+- name: Source release and add podman repo and Download the GPG key and Update using the new repository and install podman
+  ansible.builtin.shell: |
+    source /etc/os-release
+    sudo sh -c "echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ v_podman_for_ubuntu_os_version }}/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
+    wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_{{ v_podman_for_ubuntu_os_version }}/Release.key -O- | sudo apt-key add -
+
+- name: Update the ubuntu package index - equivalent of "apt-get update"
+  apt:
+    update_cache: yes
+
+- name: Install podman
+  ansible.builtin.apt:
+    pkg:
+    - podman
+
+- name: Source back to profile since switched on podman install
+  ansible.builtin.shell: source ~/.profile
+  args:
+    executable: /bin/bash

@@ -1,0 +1,3 @@
+---
+# vars file for load_certificates
+v_podman_for_ubuntu_os_version: "required"

@@ -1,0 +1,47 @@
+---
+- name: Create the /dev/mqueue directory
+  ansible.builtin.file:
+    path: /dev/mqueue
+    state: directory
+  become: true
+
+- name: Install python3-pip
+  ansible.builtin.apt:
+    pkg:
+    - python3-pip
+  become: true
+
+- name: Install ansible-navigator python package
+  pip:
+    name: ansible-navigator
+    extra_args: --user
+  become_user: "{{ v_install_ansible_navigator_username }}"
+  become: true
+
+- name: Pull ansible-navigator-demo-ee podman image latest
+  containers.podman.podman_image:
+    name: quay.io/ansible/ansible-navigator-demo-ee
+    tag: latest
+  become_user: "{{ v_install_ansible_navigator_username }}"
+  become: true
+
+- name: Pull ansible-navigator-demo-ee podman image 0.6.0
+  containers.podman.podman_image:
+    name: quay.io/ansible/ansible-navigator-demo-ee
+    tag: 0.6.0
+  become_user: "{{ v_install_ansible_navigator_username }}"
+  become: true
+
+- name: Ensure export path in profile
+  ansible.builtin.lineinfile:
+    dest: "/home/{{ v_install_ansible_navigator_username }}/.profile"
+    state: present
+    regexp: '^%export PATH=$HOME'
+    line: 'export PATH=$HOME/.local/bin:$PATH'
+
+- name: Run source command as user
+  ansible.builtin.shell: source ~/.profile
+  args:
+    executable: /bin/bash
+  become_user: "{{ v_install_ansible_navigator_username }}"
+  become: true

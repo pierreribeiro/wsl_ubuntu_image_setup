@@ -1,0 +1,17 @@
+---
+- name: Create certificate school directory
+  ansible.builtin.file:
+    path: /usr/local/share/ca-certificates/school
+    state: directory
+    mode: '0755'
+
+# Used for reference; add your own certificates into this task
+# - name: Copy Certificate
+#  ansible.builtin.copy:
+#    src: "{{ role_path }}/files/somecert.crt"
+#    dest: /usr/local/share/ca-certificates/school/somecert.crt
+
+- name: Run update-ca-certificates
+  ansible.builtin.shell: update-ca-certificates
+  args:
+    executable: /bin/bash

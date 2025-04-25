@@ -1,0 +1,54 @@
+#!/bin/bash
+
+echo 'Note 1: /etc/resolv.conf will be replaced by /ansible/default_settings/wsl/resolv.conf'
+echo 'Note 2: /etc/wsl.conf will be replaced by /ansible/default_settings/wsl/wsl.conf'
+echo 'Those files are backed up but if you have your own customizations; you should update the default settings files as well.'
+file="/etc/resolv.conf"
+
+if id "{{ v_add_fix_script_username }}" &>/dev/null; then
+  echo 'user `{{ v_add_fix_script_username }}` found'
+else
+  echo 'user `{{ v_add_fix_script_username }}` not found'
+  if (( $EUID == 0 )); then
+    echo 'Creating `{{ v_add_fix_script_username }}` user'
+    adduser --gecos "" --disabled-password {{ v_add_fix_script_username }}
+    #Delete password on {{ v_add_fix_script_username }}
+    passwd -d {{ v_add_fix_script_username }}
+    #Provide sudo access to user
+    usermod -aG sudo {{ v_add_fix_script_username }}
+    echo 'Created `{{ v_add_fix_script_username }}` user and switch to `{{ v_add_fix_script_username }}` user'
+    su {{ v_add_fix_script_username }}
+    echo 'Switched to `{{ v_add_fix_script_username }}` user'
+    echo 'Rerun script to ensure everything is fixed up'
+  else
+    echo 'Run script as root since `{{ v_add_fix_script_username }}` user does not exist'
+    exit
+  fi
+fi
+
+echo 'Fixing networking issues'
+if [[ -L "$file" ]]; then
+    echo 'Removing symlink file: ' $file
+    sudo rm "$file"
+    echo 'Removed symlink file:' $file
+fi
+sudo cp -p /etc/resolv.conf /etc/resolv.conf.`date +%Y.%m.%d.%H.%M.%S`
+sudo cp -p /etc/wsl.conf /etc/wsl.conf.`date +%Y.%m.%d.%H.%M.%S`
+sudo cp /ansible/default_settings/wsl/resolv.conf /etc/resolv.conf
+sudo cp /ansible/default_settings/wsl/wsl.conf /etc/wsl.conf
+echo 'Fixed networking issues'
+
+
+echo 'Fixing path profile source for ansible-navigator'
+#This line below should already be done and we dont want to create lots of entries at end of the profile file
+#echo 'export PATH=$HOME/.local/bin:$PATH' >> ~/.profile
+source ~/.profile
+echo 'Fixed path profile source for ansible-navigator'
+
+echo 'Fix any permissions issues with ansible directory'
+sudo chown -R {{ v_add_fix_script_username }}:{{ v_add_fix_script_username }} /ansible
+
+cd /ansible
+
+# Can possibly fix issue with Ansible VS Code Extension
+sudo touch /ansible/settings.json
