@@ -4,6 +4,10 @@ if (( $EUID != 0 )); then
   exit
 fi
 
+echo 'This script is designed to be run on a fresh install of Ubuntu 20.04 LTS.'
+<< 'COMMENT'
+This commented code is deprecated. Mainly used for reference.
+
 echo 'Ensure /etc/resolv.conf isnt symlink'
 if [[ -L "/etc/resolv.conf" ]]; then
   echo 'Removing symlink file: /etc/resolv.conf'
@@ -21,11 +25,17 @@ mkdir /usr/local/share/ca-certificates/school
 cd /usr/local/share/ca-certificates/school
 # Copy any required certificates 
 # sudo update-ca-certificates
+COMMENT
 
+# Install Required Packages
 # Install Ansible To Leverage That For Rest of Setup Work
-apt-get update
+apt install software-properties-common -y
+apt-add-repository -y ppa:ansible/ansible
+apt update && apt -y upgrade
+apt install ansible ansible-dev-tools -y
+apt install net-tools -y
 apt install python3-pip -y
-pip install ansible
+
 
 # Pull down from repository and run playbook
 cd /
