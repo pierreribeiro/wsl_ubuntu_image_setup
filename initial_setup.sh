@@ -20,7 +20,7 @@ echo 'generateResolvConf = false' >> /etc/wsl.conf
 mkdir /usr/local/share/ca-certificates/school
 cd /usr/local/share/ca-certificates/school
 # Copy any required certificates 
-sudo update-ca-certificates
+# sudo update-ca-certificates
 
 # Install Ansible To Leverage That For Rest of Setup Work
 apt-get update
