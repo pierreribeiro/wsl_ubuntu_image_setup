@@ -12,6 +12,7 @@ This code is leveraged to standup WSL Images for Distribution
 * Windows Network Interface Metrics Are Set Properly
 
 ## Usage example
+
 ```bash
 ansible-playbook init.yml
 ```
@@ -20,7 +21,7 @@ ansible-playbook init.yml
 
 ## TODO
 
-1) Criar uma role para => 
+1) Criar uma role para =>
     a) pipx install ansible-dev-tools e pipx ensurepath a ser executada pelo usuário não root
 
 2) Na role add_fix_script editar o template fix.sh.j2 e:
@@ -59,4 +60,4 @@ ansible-playbook init.yml
             }
         }
 
-8) Na role vs_code_setup editar settings.json e inserir com o resultado do template gerado            
+8) Na role vs_code_setup editar settings.json e inserir com o resultado do template gerado.

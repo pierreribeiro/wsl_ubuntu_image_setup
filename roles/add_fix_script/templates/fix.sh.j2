@@ -26,6 +26,7 @@ else
   fi
 fi
 
+{#
 echo 'Fixing networking issues'
 if [[ -L "$file" ]]; then
     echo 'Removing symlink file: ' $file
@@ -37,13 +38,13 @@ sudo cp -p /etc/wsl.conf /etc/wsl.conf.`date +%Y.%m.%d.%H.%M.%S`
 sudo cp /ansible/default_settings/wsl/resolv.conf /etc/resolv.conf
 sudo cp /ansible/default_settings/wsl/wsl.conf /etc/wsl.conf
 echo 'Fixed networking issues'
+#}
 
-
-echo 'Fixing path profile source for ansible-navigator'
+echo 'Fixing path profile source for ansible-dev-tools'
 #This line below should already be done and we dont want to create lots of entries at end of the profile file
 #echo 'export PATH=$HOME/.local/bin:$PATH' >> ~/.profile
 source ~/.profile
-echo 'Fixed path profile source for ansible-navigator'
+echo 'Fixed path profile source for ansible-dev-tools'
 
 echo 'Fix any permissions issues with ansible directory'
 sudo chown -R {{ v_add_fix_script_username }}:{{ v_add_fix_script_username }} /ansible
