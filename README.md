@@ -24,14 +24,14 @@ ansible-playbook init.yml
 1) Criar uma role para =>
     a) pipx install ansible-dev-tools e pipx ensurepath a ser executada pelo usuário não root
 
-2) Na role add_fix_script editar o template fix.sh.j2 e:
+2) Na role add_fix_script editar o template fix.sh.j2 e:   OK FEITO
     a) Ajustar ou retirar código referente a ansible-navigator - linha 42 adiante
     b) Ajustar ou retirar código referente a /etc/resolv.conf (não é mais necessário colocar nameserver estárico) - linha 6 adiante
 
-3) Na role wsl_network_setup editar main.yml e:
+3) Na role wsl_network_setup editar main.yml e:     OK FEITO
     a) retirar código que manipula /etc/resolv.conf
 
-4) Na role wsl_network_setup editar wsl.conf.j2 e:
+4) Na role wsl_network_setup editar wsl.conf.j2 e:      OK FEITO
     a) Retirar [network]
                generateResolvConf = false
     b) Adicionar [boot]
