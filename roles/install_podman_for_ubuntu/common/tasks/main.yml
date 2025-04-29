@@ -22,8 +22,8 @@
     set -o pipefail
     source /etc/os-release
     sudo sh -c "echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/" \
-    "xUbuntu_{{ v_podman_for_ubuntu_os_version }}/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
-    wget -nv > https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_{{ v_podman_for_ubuntu_os_version }}/Release.key \
+    "xUbuntu_{{ install_podman_for_ubuntu_v_os_version }}/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
+    wget -nv > https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_{{ install_podman_for_ubuntu_v_os_version }}/Release.key \
     -O- | sudo apt-key add -
   args:
     creates: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list

@@ -46,7 +46,7 @@
     - name: Install python pipx
       ansible.builtin.apt:
         pkg:
-          - python-pipx
+          - pipx
 
     - name: Install Ansible Development Tools
       ansible.builtin.include_role:
