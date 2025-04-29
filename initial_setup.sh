@@ -35,12 +35,13 @@ apt update && apt -y upgrade
 apt install net-tools -y
 apt install ansible -y
 apt install pipx -y
-pipx install ansible-dev-tools
-pipx ensurepath
+#pipx install ansible-dev-tools
+#pipx ensurepath
 
 # Pull down from repository and run playbook
 cd /
-git clone https://github.com/mattdclark31/wsl_ubuntu_image_setup.git
+#git clone 1https://github.com/mattdclark31/wsl_ubuntu_image_setup.git
+git clone https://github.com/pierreribeiro/wsl_ubuntu_image_setup.git
 cd /wsl_ubuntu_image_setup
 git pull
 ansible-playbook init.yml
