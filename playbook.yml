@@ -3,8 +3,8 @@
   hosts: localhost
   gather_facts: true
   vars:
-    dev_username: "iacdev"
-    admin_group: "iacadmin"
+    dev_username: "{{ user }}"
+    admin_group: "{{ group }}"
   tasks:
     - name: Create Main User Role
       ansible.builtin.include_role:
@@ -53,7 +53,6 @@
         name: install_ansible_dev_tools
       vars:
         install_ansible_dev_tools_v_username: "{{ dev_username }}"
-
 
     # - name: Install Ansible Navigator
     #   ansible.builtin.include_role:
