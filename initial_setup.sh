@@ -44,4 +44,4 @@ cd /
 git clone https://github.com/pierreribeiro/wsl_ubuntu_image_setup.git
 cd /wsl_ubuntu_image_setup
 git pull
-ansible-playbook init.yml
+ansible-playbook playbook.yml
