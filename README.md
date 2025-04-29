@@ -48,7 +48,7 @@ ansible-playbook init.yml
     a) remover referências a role install_ansible_navigator
     b) criar referências a role ansible-dev-tools
 
-7) Na role vs_code_setup criar um template com:
+7) Na role vs_code_setup criar um template com:  OK FEITO
     a) {
             "ansible.ansible.reuseTerminal": true,
             "ansible.python.interpreterPath": "/home/{{ v_vs_code_setup_username }}/.local/share/pipx/venvs/ansible-dev-tools/bin/python3",
@@ -60,4 +60,4 @@ ansible-playbook init.yml
             }
         }
 
-8) Na role vs_code_setup editar settings.json e inserir com o resultado do template gerado.
+8) Na role vs_code_setup editar settings.json e inserir com o resultado do template gerado.  OK FEITO

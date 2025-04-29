@@ -22,7 +22,7 @@
 
 - name: Copy settings.json to default settings
   ansible.builtin.copy:
-    src: "{{ role_path }}/files/settings.json"
+    src: "{{ role_path }}/templates/settings.json.j2"
     dest: /ansible/default_settings/vscode/settings.json
     mode: '0644'
     owner: "{{ v_vs_code_setup_username }}"
