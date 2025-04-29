@@ -10,8 +10,8 @@
       ansible.builtin.include_role:
         name: create_main_user
       vars:
-        v_create_main_user_admin_group: "{{ admin_group }}"
-        v_create_main_user_username: "{{ dev_username }}"
+        create_main_user_v_admin_group: "{{ admin_group }}"
+        create_main_user_v_username: "{{ dev_username }}"
 
     - name: Create Initial Ansible Directory
       ansible.builtin.file:
@@ -25,13 +25,13 @@
       ansible.builtin.include_role:
         name: add_fix_script
       vars:
-        v_add_fix_script_username: "{{ dev_username  }}"
+        add_fix_script_v_username: "{{ dev_username }}"
 
     - name: Setup WSL Network Settings
       ansible.builtin.include_role:
         name: wsl_network_setup
       vars:
-        v_wsl_network_setup_username: "{{ dev_username }}"
+        wsl_network_setup_v_username: "{{ dev_username }}"
 
     - name: Install Certificates
       ansible.builtin.include_role:
@@ -41,18 +41,18 @@
       ansible.builtin.include_role:
         name: install_podman_for_ubuntu
       vars:
-        v_podman_for_ubuntu_os_version: "{{ hostvars[inventory_hostname].ansible_distribution_version }}"
+        install_podman_for_ubuntu_v_os_version: "{{ hostvars[inventory_hostname].ansible_distribution_version }}"
 
     - name: Install python pipx
       ansible.builtin.apt:
         pkg:
-        - python-pipx
+          - python-pipx
 
     - name: Install Ansible Development Tools
       ansible.builtin.include_role:
         name: install_ansible_dev_tools
       vars:
-        v_install_ansible_dev_tools_username: "{{ dev_username }}"
+        install_ansible_dev_tools_v_username: "{{ dev_username }}"
 
 
     # - name: Install Ansible Navigator
@@ -77,4 +77,4 @@
       ansible.builtin.include_role:
         name: vs_code_setup
       vars:
-        v_vs_code_setup_username: "{{ dev_username }}"
+        vs_code_setup_v_username: "{{ dev_username }}"
