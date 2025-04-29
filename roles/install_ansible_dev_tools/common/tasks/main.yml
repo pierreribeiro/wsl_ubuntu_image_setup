@@ -1,0 +1,44 @@
+---
+- name: Create the /dev/mqueue directory
+  ansible.builtin.file:
+    path: /dev/mqueue
+    state: directory
+  become: true
+
+- name: Install python pipx via apt package
+  become: true
+  ansible.builtin.package:
+    name: "{{ set_up_pactote_ansible_dev_tools__pipx_package }}"
+    state: present
+
+- name: Install pactote ansible-dev-tools via pipx
+  become_user: "{{ v_install_ansible_dev_username }}"
+  community.general.pipx:
+    name: "{{ set_up_pactote_ansible_dev_tools__ansible_dev_package }}"
+    executable: "{{ set_up_pactote_ansible_dev_tools__pipx_executable }}"
+    state: present
+
+- name: Ensure that command pipx ensurepath is executed after ansible-dev-tools installation
+  become_user: "{{ v_install_ansible_dev_username }}"
+  ansible.builtin.command: "{{ set_up_pactote_ansible_dev_tools__pipx_executable }} ensurepath"
+
+- name: Pull ansible-navigator-demo-ee podman image latest
+  containers.podman.podman_image:
+    name: quay.io/ansible/ansible-navigator-demo-ee
+    tag: latest
+  become_user: "{{ v_install_ansible_navigator_username }}"
+  become: true
+
+- name: Pull ansible-navigator-demo-ee podman image 0.6.0
+  containers.podman.podman_image:
+    name: quay.io/ansible/ansible-navigator-demo-ee
+    tag: 0.6.0
+  become_user: "{{ v_install_ansible_navigator_username }}"
+  become: true
+
+- name: Run source command as user
+  ansible.builtin.shell: source ~/.profile
+  args:
+    executable: /bin/bash
+  become_user: "{{ v_install_ansible_navigator_username }}"
+  become: true
