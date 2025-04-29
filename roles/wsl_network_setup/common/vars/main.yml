@@ -1,3 +1,3 @@
 ---
 # vars file for wsl_network_setup
-v_wsl_network_setup_username: "required"
+wsl_network_setup_v_username: "required"

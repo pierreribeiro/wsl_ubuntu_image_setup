@@ -4,8 +4,8 @@
     path: "{{ item }}"
     state: directory
     mode: '0755'
-    owner: "{{ v_wsl_network_setup_username }}"
-    group: "{{ v_wsl_network_setup_username }}"
+    owner: "{{ wsl_network_setup_v_username }}"
+    group: "{{ wsl_network_setup_v_username }}"
   loop:
     - '/ansible'
     - '/ansible/default_settings'
@@ -30,8 +30,8 @@
     src: "{{ role_path }}/templates/wsl.conf.j2"
     dest: /ansible/default_settings/wsl/wsl.conf
     mode: '0644'
-    owner: "{{ v_wsl_network_setup_username }}"
-    group: "{{ v_wsl_network_setup_username }}"
+    owner: "{{ wsl_network_setup_v_username }}"
+    group: "{{ wsl_network_setup_v_username }}"
 
 - name: Copy wsl.conf to actual settings
   ansible.builtin.template:

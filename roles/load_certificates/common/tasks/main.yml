@@ -12,6 +12,7 @@
 #    dest: /usr/local/share/ca-certificates/school/somecert.crt
 
 - name: Run update-ca-certificates
-  ansible.builtin.shell: update-ca-certificates
+  ansible.builtin.command:
+    cmd: update-ca-certificates
   args:
-    executable: /bin/bash
+    creates: /etc/ssl/certs/ca-certificates.crt
