@@ -42,9 +42,9 @@ ansible-playbook init.yml
     d) Adicionar [interop]
                  appendWindowsPath=false
 
-5) Remover a role install_ansible_navigator
+5) Remover a role install_ansible_navigator OK FEITO
 
-6) Editar o arquivo init.yml e:
+6) Editar o arquivo init.yml e: OK FEITO
     a) remover referências a role install_ansible_navigator
     b) criar referências a role ansible-dev-tools
 
