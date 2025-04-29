@@ -1,4 +1,4 @@
-set_up_pactote_ansible_dev_tools__pipx_package: pipx
-set_up_pactote_ansible_dev_tools__ansible_dev_package: ansible-dev-tools
-set_up_pactote_ansible_dev_tools__pipx_executable: pipx
-set_up_pactote_ansible_dev_tools__ansible_dev_package_args: ""
+install_ansible_dev_tools_pipx_package: pipx
+install_ansible_dev_tools_ansible_dev_package: ansible-dev-tools
+install_ansible_dev_tools_pipx_executable: pipx
+install_ansible_dev_tools_ansible_dev_package_args: ""

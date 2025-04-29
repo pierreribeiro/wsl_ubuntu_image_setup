@@ -3,42 +3,48 @@
   ansible.builtin.file:
     path: /dev/mqueue
     state: directory
+    mode: '0755'
   become: true
 
 - name: Install python pipx via apt package
   become: true
   ansible.builtin.package:
-    name: "{{ set_up_pactote_ansible_dev_tools__pipx_package }}"
+    name: "{{ install_ansible_dev_tools_pipx_package }}"
     state: present
 
-- name: Install pactote ansible-dev-tools via pipx
-  become_user: "{{ v_install_ansible_dev_username }}"
+- name: Install ansible-dev-tools via pipx
+  become: true
+  become_user: "{{ install_ansible_dev_tools_v_username }}"
   community.general.pipx:
-    name: "{{ set_up_pactote_ansible_dev_tools__ansible_dev_package }}"
-    executable: "{{ set_up_pactote_ansible_dev_tools__pipx_executable }}"
+    name: "{{ install_ansible_dev_tools_ansible_dev_package }}"
+    executable: "{{ install_ansible_dev_tools_pipx_executable }}"
     state: present
 
 - name: Ensure that command pipx ensurepath is executed after ansible-dev-tools installation
-  become_user: "{{ v_install_ansible_dev_username }}"
-  ansible.builtin.command: "{{ set_up_pactote_ansible_dev_tools__pipx_executable }} ensurepath"
+  become: true
+  become_user: "{{ install_ansible_dev_tools_v_username }}"
+  ansible.builtin.command: "{{ install_ansible_dev_tools_pipx_executable }} ensurepath"
+  args:
+    creates: "{{ ansible_env.HOME }}/.local/bin"
 
 - name: Pull ansible-navigator-demo-ee podman image latest
   containers.podman.podman_image:
     name: quay.io/ansible/ansible-navigator-demo-ee
     tag: latest
-  become_user: "{{ v_install_ansible_navigator_username }}"
+  become_user: "{{ install_ansible_dev_tools_v_username }}"
   become: true
 
 - name: Pull ansible-navigator-demo-ee podman image 0.6.0
   containers.podman.podman_image:
     name: quay.io/ansible/ansible-navigator-demo-ee
     tag: 0.6.0
-  become_user: "{{ v_install_ansible_navigator_username }}"
+  become_user: "{{ install_ansible_dev_tools_v_username }}"
   become: true
 
 - name: Run source command as user
   ansible.builtin.shell: source ~/.profile
   args:
     executable: /bin/bash
-  become_user: "{{ v_install_ansible_navigator_username }}"
+    creates: ~/.profile
+  become_user: "{{ install_ansible_dev_tools_v_username }}"
   become: true
