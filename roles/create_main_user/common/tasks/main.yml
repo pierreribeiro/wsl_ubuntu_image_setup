@@ -1,16 +1,32 @@
 ---
 - name: Ensure admin group exists
+  debugger: always
   ansible.builtin.group:
     name: "{{ create_main_user_v_admin_group }}"
     state: present
   register: group_result
-
-- name: Debug - Mostrar resultado da criação do grupo
+  
+- name: Debug detalhado - Criação do grupo admin
   debug:
-    var: group_result
+    msg: |
+      ================================
+      RESULTADO DA CRIAÇÃO DO GRUPO
+      ================================
+      Nome do Grupo: {{ create_main_user_v_admin_group }}
+      Status da Mudança: {{ group_result.changed }}
+      Estado Final: {{ group_result.state }}
+      GID (se criado): {{ group_result.gid | default('N/A') }}
+      Falhou?: {{ group_result.failed | default(false) }}
+      Mensagem de Erro: {{ group_result.msg | default('Nenhum erro') }}
+      ================================
+      Variáveis Disponíveis:
+      {{ group_result | to_nice_yaml }}
+      ================================
     verbosity: 2
+  no_log: false
 
 - name: Allow admin group to have passwordless sudo
+  debugger: always
   ansible.builtin.lineinfile:
     dest: /etc/sudoers
     state: present
@@ -21,12 +37,24 @@
 
 - name: Debug - Mostrar resultado da configuração do sudo
   debug:
-    msg: |
-      Grupo admin: {{ create_main_user_v_admin_group }}
-      Resultado da configuração: {{ sudo_result }}
+    msg: |      
+      ================================
+      RESULTADO DA CRIAÇÃO DO SUDO
+      ================================
+      Nome do Grupo: {{ create_main_user_v_admin_group }}
+      Status da Mudança: {{ sudo_result.changed }}
+      Estado Final: {{ sudo_result.state }}
+      GID (se criado): {{ sudo_result.gid | default('N/A') }}
+      Falhou?: {{ sudo_result.failed | default(false) }}
+      Mensagem de Erro: {{ sudo_result.msg | default('Nenhum erro') }}
+      ================================
+      Variáveis Disponíveis:
+      {{ sudo_result | to_nice_yaml }}
+      ================================
     verbosity: 2
 
 - name: Create dev user to admin group
+  debugger: always
   ansible.builtin.user:
     name: "{{ create_main_user_v_username }}"
     expires: -1
@@ -39,8 +67,19 @@
 
 - name: Debug - Mostrar resultado da criação do usuário
   debug:
-    msg: |
-      Username: {{ create_main_user_v_username }}
-      Grupos: {{ create_main_user_v_admin_group }}
-      Resultado: {{ user_result }}
+    msg: |      
+      ================================
+      RESULTADO DA CRIAÇÃO DO USUÁRIO
+      ================================
+      Nome do Usuario: {{ create_main_user_v_username }}
+      Nome do Grupo: {{ create_main_user_v_admin_group }}
+      Status da Mudança: {{ user_result.changed }}
+      Estado Final: {{ user_result.state }}
+      GID (se criado): {{ user_result.gid | default('N/A') }}
+      Falhou?: {{ user_result.failed | default(false) }}
+      Mensagem de Erro: {{ user_result.msg | default('Nenhum erro') }}
+      ================================
+      Variáveis Disponíveis:
+      {{ sudo_result | to_nice_yaml }}
+      ================================
     verbosity: 2
