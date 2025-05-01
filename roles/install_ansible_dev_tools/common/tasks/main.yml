@@ -5,12 +5,25 @@
     state: directory
     mode: '0755'
   become: true
+  register: mqueue_result
+
+- name: Debug - Mostrar resultado da criação do diretório /dev/mqueue
+  debug:
+    var: mqueue_result
+    verbosity: 2
+
 
 - name: Install python pipx via apt package
   become: true
   ansible.builtin.package:
     name: "{{ install_ansible_dev_tools_pipx_package }}"
     state: present
+  register: pipx_result
+
+- name: Debug - Mostrar resultado da instalação do pipx
+  debug:
+    var: pipx_result
+    verbosity: 2
 
 - name: Install ansible-dev-tools via pipx
   become: true
@@ -19,6 +32,12 @@
     name: "{{ install_ansible_dev_tools_ansible_dev_package }}"
     executable: "{{ install_ansible_dev_tools_pipx_executable }}"
     state: present
+  register: ansible_dev_tools_result
+
+- name: Debug - Mostrar resultado da instalação do ansible-dev-tools
+  debug:
+    var: ansible_dev_tools_result
+    verbosity: 2
 
 - name: Ensure that command pipx ensurepath is executed after ansible-dev-tools installation
   become: true
@@ -26,6 +45,12 @@
   ansible.builtin.command: "{{ install_ansible_dev_tools_pipx_executable }} ensurepath"
   args:
     creates: "{{ ansible_env.HOME }}/.local/bin"
+  register: pipx_ensurepath_result
+
+- name: Debug - Mostrar resultado da execução do pipx ensurepath
+  debug:
+    var: pipx_ensurepath_result
+    verbosity: 2 
 
 - name: Pull ansible-navigator-demo-ee podman image latest
   containers.podman.podman_image:
@@ -33,6 +58,12 @@
     tag: latest
   become_user: "{{ install_ansible_dev_tools_v_username }}"
   become: true
+  register: podman_image_result
+
+- name: Debug - Mostrar resultado da pull do podman image
+  debug:
+    var: podman_image_result
+    verbosity: 2
 
 - name: Pull ansible-navigator-demo-ee podman image 0.6.0
   containers.podman.podman_image:
@@ -40,6 +71,12 @@
     tag: 0.6.0
   become_user: "{{ install_ansible_dev_tools_v_username }}"
   become: true
+  register: podman_image_0_6_0_result
+
+- name: Debug - Mostrar resultado da pull do podman image 0.6.0
+  debug:
+    var: podman_image_0_6_0_result
+    verbosity: 2
 
 - name: Run source command as user
   ansible.builtin.shell: source ~/.profile
@@ -48,3 +85,9 @@
     creates: ~/.profile
   become_user: "{{ install_ansible_dev_tools_v_username }}"
   become: true
+  register: source_result
+
+- name: Debug - Mostrar resultado do source ~/.profile
+  debug:
+    var: source_result
+    verbosity: 2
