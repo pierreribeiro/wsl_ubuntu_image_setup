@@ -44,4 +44,14 @@ cd /
 git clone https://github.com/pierreribeiro/wsl_ubuntu_image_setup.git
 cd /wsl_ubuntu_image_setup
 git pull
-ansible-playbook playbook.yml
+# Solicitar parâmetros do usuário
+read -p "Digite o nome do usuário: " user_param
+read -p "Digite o nome do grupo: " group_param
+read -p "Continuar com a execução? (Y/N): " confirm
+
+if [[ "$confirm" =~ ^[Yy]$ ]]; then
+    ansible-playbook playbook.yml --extra-vars "user=$user_param group=$group_param"
+else
+    echo "Execução abortada pelo usuário."
+    exit 1
+fi
