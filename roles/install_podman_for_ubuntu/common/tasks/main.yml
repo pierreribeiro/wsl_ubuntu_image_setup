@@ -4,10 +4,24 @@
     path: /dev/mqueue
     state: directory
     mode: '0755'
+  register: mqueue_result
+
+- name: Debug - Mostrar resultado da criação do diretório /dev/mqueue
+  debug:
+    msg: |
+      Resultado da criação do diretório /dev/mqueue: {{ mqueue_result }}
+    verbosity: 2
 
 - name: Update the ubuntu package index - equivalent of "apt-get update"
   ansible.builtin.apt:
     update_cache: true
+  register: apt_update_result
+
+- name: Debug - Mostrar resultado da atualização do índice de pacotes
+  debug:
+    msg: |
+      Resultado da atualização do índice de pacotes: {{ apt_update_result }}
+    verbosity: 2
 
 - name: Install system dependencies for podman
   ansible.builtin.apt:
@@ -15,8 +29,17 @@
       - curl
       - wget
       - gnupg2
+  register: podman_dependencies_result
+
+- name: Debug - Mostrar resultado da instalação das dependências do podman
+  debug:
+    msg: |
+      Resultado da instalação das dependências do podman: {{ podman_dependencies_result }}
+    verbosity: 2
+
 # Instructions from here: https://ansible-navigator.readthedocs.io/en/latest/installation/#setup-windows-subsystem-for-linux-2-with-ubuntu
 # - name: Source release and add podman repo and Download the GPG key and Update using the new repository and install podman
+
 - name: Source release and add podman repo and Download the GPG key and Update using the new repository and install podman
   ansible.builtin.shell: |
     set -o pipefail
@@ -27,16 +50,30 @@
     -O- | sudo apt-key add -
   args:
     creates: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+  register: podman_repo_result
 
-- name: Update the ubuntu package index - equivalent of "apt-get update"
-  ansible.builtin.apt:
-    update_cache: true
+- name: Debug - Mostrar resultado da adição do repositório do podman
+  debug:
+    msg: |
+      Resultado da adição do repositório do podman: {{ podman_repo_result }}
+    verbosity: 2
 
 - name: Install podman
   ansible.builtin.apt:
     pkg:
       - podman
       - podman-docker
+  register: podman_install_result
+
+- name: Debug - Mostrar resultado da instalação do podman
+  debug:
+    msg: |
+      Resultado da instalação do podman: {{ podman_install_result }}
+    verbosity: 2
+
+- name: Update the ubuntu package index after adding podman repo
+  ansible.builtin.apt:
+    update_cache: true
 
 - name: Source back to profile since switched on podman install
   ansible.builtin.shell: source ~/.profile
