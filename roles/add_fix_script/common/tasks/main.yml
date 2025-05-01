@@ -6,6 +6,15 @@
     mode: '0755'
     owner: "{{ add_fix_script_v_username }}"
     group: "{{ add_fix_script_v_username }}"
+  register: create_ansible_dir_result
+
+- name: Debug - Show result of creating Ansible directory
+  debug:
+    msg: |
+      Directory: {{ item.item }}
+      Result: {{ item.result }}
+    loop: "{{ create_ansible_dir_result.results }}"
+    verbosity: 2
 
 - name: Copy Fix Script To Ansible Directory
   ansible.builtin.template:
@@ -14,3 +23,13 @@
     mode: '0775'
     owner: "{{ add_fix_script_v_username }}"
     group: "{{ add_fix_script_v_username }}"
+  register: copy_fix_script_result
+
+- name: Debug - Show result of copying fix.sh
+  debug:
+    msg: |
+      Source: {{ item.item.src }}
+      Destination: {{ item.item.dest }}
+      Result: {{ item.result }}
+    loop: "{{ copy_fix_script_result.results }}"
+    verbosity: 2

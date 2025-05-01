@@ -11,6 +11,15 @@
     - '/ansible/.vscode'
     - '/ansible/default_settings'
     - '/ansible/default_settings/vscode'
+  register: create_dirs_result
+
+- name: Debug - Show result of creating directories
+  debug:
+    msg: |
+      Directory: {{ item.item }}
+      Result: {{ item.result }}
+    loop: "{{ create_dirs_result.results }}"
+    verbosity: 2
 
 - name: Copy extensions.json to default settings
   ansible.builtin.copy:
@@ -19,6 +28,16 @@
     mode: '0644'
     owner: "{{ v_vs_code_setup_username }}"
     group: "{{ v_vs_code_setup_username }}"
+  register: copy_extensions_result
+
+- name: Debug - Show result of copying extensions.json
+  debug:
+    msg: |
+      Source: {{ item.item.src }}
+      Destination: {{ item.item.dest }}
+      Result: {{ item.result }}
+    loop: "{{ copy_extensions_result.results }}"
+    verbosity: 2
 
 - name: Copy settings.json to default settings
   ansible.builtin.copy:
@@ -27,6 +46,16 @@
     mode: '0644'
     owner: "{{ v_vs_code_setup_username }}"
     group: "{{ v_vs_code_setup_username }}"
+  register: copy_settings_result
+
+- name: Debug - Show result of copying settings.json
+  debug:
+    msg: |
+      Source: {{ item.item.src }}
+      Destination: {{ item.item.dest }}
+      Result: {{ item.result }}
+    loop: "{{ copy_settings_result.results }}"
+    verbosity: 2
 
 - name: Copy extensions.json to actual settings
   ansible.builtin.copy:
@@ -35,6 +64,16 @@
     mode: '0644'
     owner: "{{ v_vs_code_setup_username }}"
     group: "{{ v_vs_code_setup_username }}"
+  register: copy_extensions_actual_result
+
+- name: Debug - Show result of copying extensions.json to actual settings
+  debug:
+    msg: |
+      Source: {{ item.item.src }}
+      Destination: {{ item.item.dest }}
+      Result: {{ item.result }}
+    loop: "{{ copy_extensions_actual_result.results }}"
+    verbosity: 2
 
 - name: Copy settings.json to actual settings
   ansible.builtin.copy:
@@ -43,3 +82,13 @@
     mode: '0644'
     owner: "{{ v_vs_code_setup_username }}"
     group: "{{ v_vs_code_setup_username }}"
+  register: copy_settings_actual_result
+
+- name: Debug - Show result of copying settings.json to actual settings
+  debug:
+    msg: |
+      Source: {{ item.item.src }}
+      Destination: {{ item.item.dest }}
+      Result: {{ item.result }}
+    loop: "{{ copy_settings_actual_result.results }}"
+    verbosity: 2
