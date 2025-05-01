@@ -4,7 +4,7 @@ if (( $EUID != 0 )); then
   exit
 fi
 
-echo 'This script is designed to be run on a fresh install of Ubuntu 20.04 LTS.'
+echo 'This script is designed to be run on a fresh install of WSL Ubuntu.'
 << 'COMMENT'
 This commented code is deprecated. Mainly used for reference.
 
@@ -38,7 +38,7 @@ apt install pipx -y
 #pipx install ansible-dev-tools
 #pipx ensurepath
 
-# Pull down from repository and run playbook
+echo 'Pull down from repository and run playbook'
 cd /
 #git clone 1https://github.com/mattdclark31/wsl_ubuntu_image_setup.git
 git clone https://github.com/pierreribeiro/wsl_ubuntu_image_setup.git
@@ -50,7 +50,11 @@ read -p "Digite o nome do grupo: " group_param
 read -p "Continuar com a execução? (Y/N): " confirm
 
 if [[ "$confirm" =~ ^[Yy]$ ]]; then
-    ansible-playbook playbook.yml --extra-vars "user=$user_param group=$group_param"
+    pwd
+    echo "Executando o playbook com os parâmetros fornecidos..."
+    export ANSIBLE_STDOUT_CALLBACK=ansible.posix.debug
+    export ANSIBLE_LOG_PATH=/tmp/ansible.log
+    ansible-playbook playbook.yml --extra-vars "user=$user_param group=$group_param" -vvv
 else
     echo "Execução abortada pelo usuário."
     exit 1
