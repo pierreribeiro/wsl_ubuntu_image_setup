@@ -19,7 +19,7 @@
         state: directory
         mode: '0755'
         owner: "{{ dev_username }}"
-        group: "{{ dev_username }}"
+        group: "{{ admin_group }}"
 
     - name: Add Fix Script
       ansible.builtin.include_role:
