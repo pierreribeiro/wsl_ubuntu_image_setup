@@ -3,6 +3,12 @@
   ansible.builtin.group:
     name: "{{ create_main_user_v_admin_group }}"
     state: present
+  register: group_result
+
+- name: Debug - Mostrar resultado da criação do grupo
+  debug:
+    var: group_result
+    verbosity: 2
 
 - name: Allow admin group to have passwordless sudo
   ansible.builtin.lineinfile:
@@ -11,6 +17,14 @@
     regexp: '^%{{ create_main_user_v_admin_group }}'
     line: '%{{ create_main_user_v_admin_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
+  register: sudo_result
+
+- name: Debug - Mostrar resultado da configuração do sudo
+  debug:
+    msg: |
+      Grupo admin: {{ create_main_user_v_admin_group }}
+      Resultado da configuração: {{ sudo_result }}
+    verbosity: 2
 
 - name: Create dev user to admin group
   ansible.builtin.user:
@@ -21,3 +35,12 @@
     append: true
     state: present
     createhome: true
+  register: user_result
+
+- name: Debug - Mostrar resultado da criação do usuário
+  debug:
+    msg: |
+      Username: {{ create_main_user_v_username }}
+      Grupos: {{ create_main_user_v_admin_group }}
+      Resultado: {{ user_result }}
+    verbosity: 2
