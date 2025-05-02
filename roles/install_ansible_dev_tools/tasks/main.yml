@@ -21,6 +21,13 @@
 
 - name: Debug - Mostrar resultado da instalação do pipx
   debug:
+    msg: |
+      Package: {{ pipx_result.item }}
+      State: {{ pipx_result.state }}
+      Changed: {{ pipx_result.changed }}
+      Failed: {{ pipx_result.failed }}
+      Skipped: {{ pipx_result.skipped }}
+    loop: "{{ pipx_result.results }}"
     var: pipx_result
     verbosity: 3
 
@@ -35,6 +42,14 @@
 
 - name: Debug - Mostrar resultado da instalação do ansible-dev-tools
   debug:
+    msg: |
+      Package: {{ ansible_dev_tools_result.item }}
+      State: {{ ansible_dev_tools_result.state }}
+      Changed: {{ ansible_dev_tools_result.changed }}
+      Failed: {{ ansible_dev_tools_result.failed }}
+      Skipped: {{ ansible_dev_tools_result.skipped }}
+    loop: "{{ ansible_dev_tools_result.results }}"
+    # Loop through the results to show detailed information
     var: ansible_dev_tools_result
     verbosity: 3 
 
@@ -48,6 +63,11 @@
 
 - name: Debug - Mostrar resultado da execução do pipx ensurepath
   debug:
+    msg: |
+      Command: {{ pipx_ensurepath_result.cmd }}
+      Changed: {{ pipx_ensurepath_result.changed }}
+      Failed: {{ pipx_ensurepath_result.failed }}
+      Skipped: {{ pipx_ensurepath_result.skipped }}
     var: pipx_ensurepath_result
     verbosity: 3 
 
@@ -61,6 +81,13 @@
 
 - name: Debug - Mostrar resultado da pull do podman image
   debug:
+    msg: |
+      Image: {{ podman_image_result.image }}
+      Tag: {{ podman_image_result.tag }}
+      State: {{ podman_image_result.state }}
+      Changed: {{ podman_image_result.changed }}
+      Failed: {{ podman_image_result.failed }}
+      Skipped: {{ podman_image_result.skipped }}
     var: podman_image_result
     verbosity: 3
 
@@ -74,6 +101,13 @@
 
 - name: Debug - Mostrar resultado da pull do podman image 0.6.0
   debug:
+    msg: |
+      Image: {{ podman_image_0_6_0_result.image }}
+      Tag: {{ podman_image_0_6_0_result.tag }}
+      State: {{ podman_image_0_6_0_result.state }}
+      Changed: {{ podman_image_0_6_0_result.changed }}
+      Failed: {{ podman_image_0_6_0_result.failed }}
+      Skipped: {{ podman_image_0_6_0_result.skipped }}
     var: podman_image_0_6_0_result
     verbosity: 3
 
@@ -88,5 +122,11 @@
 
 - name: Debug - Mostrar resultado do source ~/.profile
   debug:
-    var: source_result
+    msg: |
+      Command: {{ source_result.cmd }}
+      Changed: {{ source_result.changed }}
+      Failed: {{ source_result.failed }}
+      Skipped: {{ source_result.skipped }}
+      User: {{ source_result.user }}
+      Exit Code: {{ source_result.rc }}
     verbosity: 3

@@ -11,8 +11,14 @@
 - name: Debug - Show result of creating Ansible directory
   debug:
     msg: |
-      Directory: {{ item.item }}
-      Result: {{ item.result }}
+      Directory: {{ create_ansible_dir_result.path }}
+      State: {{ create_ansible_dir_result.state }}
+      Owner: {{ create_ansible_dir_result.owner }}
+      Group: {{ create_ansible_dir_result.group }}
+      Mode: {{ create_ansible_dir_result.mode }}
+      Changed: {{ create_ansible_dir_result.changed }}
+      Failed: {{ create_ansible_dir_result.failed }}
+      Skipped: {{ create_ansible_dir_result.skipped }}       
     loop: "{{ create_ansible_dir_result.results }}"
     verbosity: 3
 
@@ -28,8 +34,13 @@
 - name: Debug - Show result of copying fix.sh
   debug:
     msg: |
-      Source: {{ item.item.src }}
-      Destination: {{ item.item.dest }}
-      Result: {{ item.result }}
+      Source: {{ copy_fix_script_result.src }}
+      Destination: {{ copy_fix_script_result.dest }}
+      Owner: {{ copy_fix_script_result.owner }}
+      Group: {{ copy_fix_script_result.group }}
+      Mode: {{ copy_fix_script_result.mode }}
+      Changed: {{ copy_fix_script_result.changed }}
+      Failed: {{ copy_fix_script_result.failed }}
+      Skipped: {{ copy_fix_script_result.skipped }}      
     loop: "{{ copy_fix_script_result.results }}"
     verbosity: 3
