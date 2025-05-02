@@ -16,25 +16,22 @@
   debug:
     msg: |
       ============================================================
-      RESULTADO DA CRIAÇÃO DO DIRETÓRIO: {{ item.item }}
+      RESULTADO DA CRIAÇÃO DO DIRETÓRIO
       ============================================================
       Status:
-        Path: {{ item.path | default('N/A') }}
-        Alterado: {{ item.changed | default(false) }}
-        Modo: {{ item.mode | default('N/A') }}
-        Estado: {{ item.state | default('N/A') }}
+        Diretório: {{ create_dirs_result.results | map(attribute='item') | list }}
+        Paths: {{ create_dirs_result.results | map(attribute='path') | list }}
+        Alterados: {{ create_dirs_result.results | map(attribute='changed') | list }}
       
       Permissões:
-        Proprietário: {{ item.uid | default('N/A') }}
-        Grupo: {{ item.gid | default('N/A') }}
-        Modo Numérico: {{ item.mode | default('N/A') }}
+        Proprietários: {{ create_dirs_result.results | map(attribute='uid') | list }}
+        Grupos: {{ create_dirs_result.results | map(attribute='gid') | list }}
+        Modos: {{ create_dirs_result.results | map(attribute='mode') | list }}
       
       Resultados:
-        Sucesso: {{ not (item.failed | default(false)) }}
-        Falhou?: {{ item.failed | default(false) }}
-        Mensagem de Erro: {{ item.msg | default('Nenhum erro') }}
+        Sucessos: {{ create_dirs_result.results | map('json_query', 'not failed') | list }}
+        Erros: {{ create_dirs_result.results | map(attribute='msg') | list | default(['Nenhum erro']) }}
       ============================================================
-    loop: "{{ create_dirs_result.results }}"
     verbosity: 3
 
 # -  name: Copy resolv.conf to default settings
