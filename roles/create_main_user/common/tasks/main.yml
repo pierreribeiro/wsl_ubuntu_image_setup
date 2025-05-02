@@ -22,7 +22,7 @@
       Variáveis Disponíveis:
       {{ group_result | to_nice_yaml }}
       ================================
-    verbosity: 2
+    verbosity: 3
   no_log: false
 
 - name: Allow admin group to have passwordless sudo
@@ -51,7 +51,7 @@
       Variáveis Disponíveis:
       {{ sudo_result | to_nice_yaml }}
       ================================
-    verbosity: 2
+    verbosity: 3
 
 - name: Create dev user to admin group
   debugger: always
@@ -82,4 +82,4 @@
       Variáveis Disponíveis:
       {{ sudo_result | to_nice_yaml }}
       ================================
-    verbosity: 2
+    verbosity: 3
