@@ -22,13 +22,16 @@
 - name: Debug - Mostrar resultado da instalação do pipx
   debug:
     msg: |
-      Package: {{ pipx_result.item }}
-      State: {{ pipx_result.state }}
-      Changed: {{ pipx_result.changed }}
-      Failed: {{ pipx_result.failed }}
-      Skipped: {{ pipx_result.skipped }}
-    loop: "{{ pipx_result.results }}"
-    var: pipx_result
+      ============================================================
+      RESULTADO DA INSTALAÇÃO DO PIPX
+      ============================================================
+      Package: {{ install_ansible_dev_tools_pipx_package }}
+      Changed: {{ pipx_result.changed | default(false) }}
+      Failed: {{ pipx_result.failed | default(false) }}
+      
+      Detalhes Adicionais:
+      {{ pipx_result | to_nice_yaml }}
+      ============================================================
     verbosity: 3
 
 - name: Install ansible-dev-tools via pipx
@@ -43,14 +46,16 @@
 - name: Debug - Mostrar resultado da instalação do ansible-dev-tools
   debug:
     msg: |
-      Package: {{ ansible_dev_tools_result.item }}
-      State: {{ ansible_dev_tools_result.state }}
-      Changed: {{ ansible_dev_tools_result.changed }}
-      Failed: {{ ansible_dev_tools_result.failed }}
-      Skipped: {{ ansible_dev_tools_result.skipped }}
-    loop: "{{ ansible_dev_tools_result.results }}"
-    # Loop through the results to show detailed information
-    var: ansible_dev_tools_result
+      ============================================================
+      RESULTADO DA INSTALAÇÃO DO ANSIBLE-DEV-TOOLS
+      ============================================================
+      Package: {{ install_ansible_dev_tools_ansible_dev_package }}
+      Changed: {{ ansible_dev_tools_result.changed | default(false) }}
+      Failed: {{ ansible_dev_tools_result.failed | default(false) }}
+      
+      Detalhes Completos:
+      {{ ansible_dev_tools_result | to_nice_yaml }}
+      ============================================================
     verbosity: 3 
 
 - name: Ensure that command pipx ensurepath is executed after ansible-dev-tools installation
@@ -64,11 +69,18 @@
 - name: Debug - Mostrar resultado da execução do pipx ensurepath
   debug:
     msg: |
-      Command: {{ pipx_ensurepath_result.cmd }}
-      Changed: {{ pipx_ensurepath_result.changed }}
-      Failed: {{ pipx_ensurepath_result.failed }}
-      Skipped: {{ pipx_ensurepath_result.skipped }}
-    var: pipx_ensurepath_result
+      ============================================================
+      RESULTADO DA EXECUÇÃO DO PIPX ENSUREPATH
+      ============================================================
+      Comando: {{ pipx_ensurepath_result.cmd | default('N/A') }}
+      Status:
+        Changed: {{ pipx_ensurepath_result.changed | default(false) }}
+        Failed: {{ pipx_ensurepath_result.failed | default(false) }}
+        RC: {{ pipx_ensurepath_result.rc | default('N/A') }}
+      
+      Detalhes Completos:
+      {{ pipx_ensurepath_result | to_nice_yaml }}
+      ============================================================
     verbosity: 3 
 
 - name: Pull ansible-navigator-demo-ee podman image latest
@@ -82,13 +94,20 @@
 - name: Debug - Mostrar resultado da pull do podman image
   debug:
     msg: |
-      Image: {{ podman_image_result.image }}
-      Tag: {{ podman_image_result.tag }}
-      State: {{ podman_image_result.state }}
-      Changed: {{ podman_image_result.changed }}
-      Failed: {{ podman_image_result.failed }}
-      Skipped: {{ podman_image_result.skipped }}
-    var: podman_image_result
+      ============================================================
+      RESULTADO DO PULL DA IMAGEM PODMAN
+      ============================================================
+      Imagem:
+        Nome: {{ podman_image_result.name | default('N/A') }}
+        Tag: {{ podman_image_result.tag | default('N/A') }}
+      
+      Status:
+        Changed: {{ podman_image_result.changed | default(false) }}
+        Failed: {{ podman_image_result.failed | default(false) }}
+      
+      Detalhes Completos:
+      {{ podman_image_result | to_nice_yaml }}
+      ============================================================
     verbosity: 3
 
 - name: Pull ansible-navigator-demo-ee podman image 0.6.0
@@ -102,13 +121,20 @@
 - name: Debug - Mostrar resultado da pull do podman image 0.6.0
   debug:
     msg: |
-      Image: {{ podman_image_0_6_0_result.image }}
-      Tag: {{ podman_image_0_6_0_result.tag }}
-      State: {{ podman_image_0_6_0_result.state }}
-      Changed: {{ podman_image_0_6_0_result.changed }}
-      Failed: {{ podman_image_0_6_0_result.failed }}
-      Skipped: {{ podman_image_0_6_0_result.skipped }}
-    var: podman_image_0_6_0_result
+      ============================================================
+      RESULTADO DO PULL DA IMAGEM PODMAN 0.6.0
+      ============================================================
+      Imagem:
+        Nome: {{ podman_image_0_6_0_result.name | default('N/A') }}
+        Tag: {{ podman_image_0_6_0_result.tag | default('N/A') }}
+      
+      Status:
+        Changed: {{ podman_image_0_6_0_result.changed | default(false) }}
+        Failed: {{ podman_image_0_6_0_result.failed | default(false) }}
+      
+      Detalhes Completos:
+      {{ podman_image_0_6_0_result | to_nice_yaml }}
+      ============================================================
     verbosity: 3
 
 - name: Run source command as user
@@ -123,10 +149,16 @@
 - name: Debug - Mostrar resultado do source ~/.profile
   debug:
     msg: |
-      Command: {{ source_result.cmd }}
-      Changed: {{ source_result.changed }}
-      Failed: {{ source_result.failed }}
-      Skipped: {{ source_result.skipped }}
-      User: {{ source_result.user }}
-      Exit Code: {{ source_result.rc }}
+      ============================================================
+      RESULTADO DO SOURCE ~/.profile
+      ============================================================
+      Status:
+        Comando: {{ source_result.cmd | default('N/A') }}
+        Changed: {{ source_result.changed | default(false) }}
+        Failed: {{ source_result.failed | default(false) }}
+        RC: {{ source_result.rc | default('N/A') }}
+      
+      Detalhes Completos:
+      {{ source_result | to_nice_yaml }}
+      ============================================================
     verbosity: 3
