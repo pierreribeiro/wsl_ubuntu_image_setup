@@ -15,8 +15,17 @@
 - name: Debug - Show result of creating directories
   debug:
     msg: |
-      Directory: {{ item.item }}
-      Result: {{ item.result }}
+      ================================
+      RESULTADO DA CRIAÇÃO DOS DIRETÓRIOS
+      ================================
+      Diretório: {{ item.item }}
+      Status da Mudança: {{ item.changed | default(false) }}
+      Modo: {{ item.mode | default('N/A') }}
+      Proprietário: {{ item.uid | default('N/A') }}
+      Grupo: {{ item.gid | default('N/A') }}
+      Path: {{ item.path | default('N/A') }}
+      Falhou?: {{ item.failed | default(false) }}
+      ================================
     loop: "{{ create_dirs_result.results }}"
     verbosity: 3
 
@@ -41,15 +50,20 @@
     mode: '0644'
     owner: "{{ wsl_network_setup_v_username }}"
     group: "{{ wsl_network_setup_v_username }}"
-  register: copy_wsl_result
+  register: copy_wsl_default_result
 
-- name: Debug - Show result of copying wsl.conf
+- name: Debug - Show result of copying wsl.conf to default settings
   debug:
     msg: |
-      Source: {{ item.item.src }}
-      Destination: {{ item.item.dest }}
-      Result: {{ item.result }}
-    loop: "{{ copy_wsl_result.results }}"
+      ================================
+      RESULTADO DA CÓPIA DO WSL.CONF (DEFAULT)
+      ================================
+      Source: {{ copy_wsl_default_result.src | default('N/A') }}
+      Destination: {{ copy_wsl_default_result.dest | default('N/A') }}
+      Changed: {{ copy_wsl_default_result.changed | default(false) }}
+      Mode: {{ copy_wsl_default_result.mode | default('N/A') }}
+      Failed: {{ copy_wsl_default_result.failed | default(false) }}
+      ================================
     verbosity: 3
 
 - name: Copy wsl.conf to actual settings
@@ -57,13 +71,18 @@
     src: "{{ role_path }}/templates/wsl.conf.j2"
     dest: /etc/wsl.conf
     mode: '0644'
-  register: copy_wsl_result
+  register: copy_wsl_actual_result
 
-- name: Debug - Show result of copying wsl.conf
+- name: Debug - Show result of copying wsl.conf to actual settings
   debug:
     msg: |
-      Source: {{ item.item.src }}
-      Destination: {{ item.item.dest }}
-      Result: {{ item.result }}
-    loop: "{{ copy_wsl_result.results }}"
+      ================================
+      RESULTADO DA CÓPIA DO WSL.CONF (ATUAL)
+      ================================
+      Source: {{ copy_wsl_actual_result.src | default('N/A') }}
+      Destination: {{ copy_wsl_actual_result.dest | default('N/A') }}
+      Changed: {{ copy_wsl_actual_result.changed | default(false) }}
+      Mode: {{ copy_wsl_actual_result.mode | default('N/A') }}
+      Failed: {{ copy_wsl_actual_result.failed | default(false) }}
+      ================================
     verbosity: 3
