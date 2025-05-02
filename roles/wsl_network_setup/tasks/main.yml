@@ -16,10 +16,10 @@
   debug:
     msg: |
       ============================================================
-      RESULTADO DA CRIAÇÃO DO DIRETÓRIO
+      RESULTADO DA CRIAÇÃO DOS DIRETÓRIOS
       ============================================================
       Status:
-        Diretório: {{ create_dirs_result.results | map(attribute='item') | list }}
+        Diretórios: {{ create_dirs_result.results | map(attribute='item') | list }}
         Paths: {{ create_dirs_result.results | map(attribute='path') | list }}
         Alterados: {{ create_dirs_result.results | map(attribute='changed') | list }}
       
@@ -29,8 +29,8 @@
         Modos: {{ create_dirs_result.results | map(attribute='mode') | list }}
       
       Resultados:
-        Sucessos: {{ create_dirs_result.results | map('json_query', 'not failed') | list }}
-        Erros: {{ create_dirs_result.results | map(attribute='msg') | list | default(['Nenhum erro']) }}
+        Sucessos: {{ create_dirs_result.results | map(attribute='failed') | map('not') | list }}
+        Erros: {{ create_dirs_result.results | selectattr('failed', 'defined') | map(attribute='msg') | list | default(['Nenhum erro']) }}
       ============================================================
     verbosity: 3
 
