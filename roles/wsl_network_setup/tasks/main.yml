@@ -31,7 +31,7 @@
       Resultados:
         Sucessos: {{ create_dirs_result.results | rejectattr('failed') | list | length }}
         Falhas: {{ create_dirs_result.results | selectattr('failed') | list | length }}
-        Mensagens de Erro: {{ create_dirs_result.results | selectattr('failed', 'defined') | map(attribute='msg') | default(['Nenhum erro']) | join(', ') }}
+        Estado: {{ create_dirs_result.results | map(attribute='state') | list }}
       ============================================================
     verbosity: 3
 
