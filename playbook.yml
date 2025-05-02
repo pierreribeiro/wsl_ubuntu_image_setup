@@ -77,3 +77,4 @@
         name: vs_code_setup
       vars:
         vs_code_setup_v_username: "{{ dev_username }}"
+        vs_code_setup_v_admin_group: "{{ admin_group }}"        

@@ -5,23 +5,23 @@ echo 'Note 2: /etc/wsl.conf will be replaced by /ansible/default_settings/wsl/ws
 echo 'Those files are backed up but if you have your own customizations; you should update the default settings files as well.'
 file="/etc/resolv.conf"
 
-if id "{{ v_add_fix_script_username }}" &>/dev/null; then
-  echo 'user `{{ v_add_fix_script_username }}` found'
+if id "{{ add_fix_script_v_username }}" &>/dev/null; then
+  echo 'user `{{ add_fix_script_v_username }}` found'
 else
-  echo 'user `{{ v_add_fix_script_username }}` not found'
+  echo 'user `{{ add_fix_script_v_username }}` not found'
   if (( $EUID == 0 )); then
-    echo 'Creating `{{ v_add_fix_script_username }}` user'
-    adduser --gecos "" --disabled-password {{ v_add_fix_script_username }}
-    #Delete password on {{ v_add_fix_script_username }}
-    passwd -d {{ v_add_fix_script_username }}
+    echo 'Creating `{{ add_fix_script_v_username }}` user'
+    adduser --gecos "" --disabled-password {{ add_fix_script_v_username }}
+    #Delete password on {{ add_fix_script_v_username }}
+    passwd -d {{ add_fix_script_v_username }}
     #Provide sudo access to user
-    usermod -aG sudo {{ v_add_fix_script_username }}
-    echo 'Created `{{ v_add_fix_script_username }}` user and switch to `{{ v_add_fix_script_username }}` user'
-    su {{ v_add_fix_script_username }}
-    echo 'Switched to `{{ v_add_fix_script_username }}` user'
+    usermod -aG sudo {{ add_fix_script_v_username }}
+    echo 'Created `{{ add_fix_script_v_username }}` user and switch to `{{ add_fix_script_v_username }}` user'
+    su {{ add_fix_script_v_username }}
+    echo 'Switched to `{{ add_fix_script_v_username }}` user'
     echo 'Rerun script to ensure everything is fixed up'
   else
-    echo 'Run script as root since `{{ v_add_fix_script_username }}` user does not exist'
+    echo 'Run script as root since `{{ add_fix_script_v_username }}` user does not exist'
     exit
   fi
 fi
@@ -47,7 +47,7 @@ source ~/.profile
 echo 'Fixed path profile source for ansible-dev-tools'
 
 echo 'Fix any permissions issues with ansible directory'
-sudo chown -R {{ v_add_fix_script_username }}:{{ v_add_fix_script_username }} /ansible
+sudo chown -R {{ add_fix_script_v_username }}:{{ add_fix_script_v_username }} /ansible
 
 cd /ansible
 
