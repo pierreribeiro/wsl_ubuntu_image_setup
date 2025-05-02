@@ -43,8 +43,7 @@
       ================================
       Nome do Grupo: {{ create_main_user_v_admin_group }}
       Status da Mudança: {{ sudo_result.changed }}
-      Estado Final: {{ sudo_result.state }}
-      GID (se criado): {{ sudo_result.gid | default('N/A') }}
+      Linha Alterada: {{ sudo_result.line | default('N/A') }}     
       Falhou?: {{ sudo_result.failed | default(false) }}
       Mensagem de Erro: {{ sudo_result.msg | default('Nenhum erro') }}
       ================================
