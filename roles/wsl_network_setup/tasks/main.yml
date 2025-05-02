@@ -15,17 +15,25 @@
 - name: Debug - Show result of creating directories
   debug:
     msg: |
-      ================================
-      RESULTADO DA CRIAÇÃO DOS DIRETÓRIOS
-      ================================
-      Diretório: {{ item.item }}
-      Status da Mudança: {{ item.changed | default(false) }}
-      Modo: {{ item.mode | default('N/A') }}
-      Proprietário: {{ item.uid | default('N/A') }}
-      Grupo: {{ item.gid | default('N/A') }}
-      Path: {{ item.path | default('N/A') }}
-      Falhou?: {{ item.failed | default(false) }}
-      ================================
+      ============================================================
+      RESULTADO DA CRIAÇÃO DO DIRETÓRIO: {{ item.item }}
+      ============================================================
+      Status:
+        Path: {{ item.path | default('N/A') }}
+        Alterado: {{ item.changed | default(false) }}
+        Modo: {{ item.mode | default('N/A') }}
+        Estado: {{ item.state | default('N/A') }}
+      
+      Permissões:
+        Proprietário: {{ item.uid | default('N/A') }}
+        Grupo: {{ item.gid | default('N/A') }}
+        Modo Numérico: {{ item.mode | default('N/A') }}
+      
+      Resultados:
+        Sucesso: {{ not (item.failed | default(false)) }}
+        Falhou?: {{ item.failed | default(false) }}
+        Mensagem de Erro: {{ item.msg | default('Nenhum erro') }}
+      ============================================================
     loop: "{{ create_dirs_result.results }}"
     verbosity: 3
 

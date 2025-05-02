@@ -24,8 +24,7 @@
     verbosity: 3
   no_log: false
 
-- name: Allow admin group to have passwordless sudo
-  debugger: always
+- name: Allow admin group to have passwordless sudo  
   ansible.builtin.lineinfile:
     dest: /etc/sudoers
     state: present
@@ -51,8 +50,7 @@
       ================================
     verbosity: 3
 
-- name: Create dev user to admin group
-  debugger: always
+- name: Create dev user to admin group  
   ansible.builtin.user:
     name: "{{ create_main_user_v_username }}"
     expires: -1
