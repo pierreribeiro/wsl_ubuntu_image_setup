@@ -10,8 +10,7 @@
 - name: Debug - Mostrar resultado da criação do diretório /dev/mqueue
   debug:
     var: mqueue_result
-    verbosity: 2
-
+    verbosity: 3
 
 - name: Install python pipx via apt package
   become: true
@@ -23,7 +22,7 @@
 - name: Debug - Mostrar resultado da instalação do pipx
   debug:
     var: pipx_result
-    verbosity: 2
+    verbosity: 3
 
 - name: Install ansible-dev-tools via pipx
   become: true
@@ -37,7 +36,7 @@
 - name: Debug - Mostrar resultado da instalação do ansible-dev-tools
   debug:
     var: ansible_dev_tools_result
-    verbosity: 2
+    verbosity: 3 
 
 - name: Ensure that command pipx ensurepath is executed after ansible-dev-tools installation
   become: true
@@ -50,7 +49,7 @@
 - name: Debug - Mostrar resultado da execução do pipx ensurepath
   debug:
     var: pipx_ensurepath_result
-    verbosity: 2 
+    verbosity: 3 
 
 - name: Pull ansible-navigator-demo-ee podman image latest
   containers.podman.podman_image:
@@ -63,7 +62,7 @@
 - name: Debug - Mostrar resultado da pull do podman image
   debug:
     var: podman_image_result
-    verbosity: 2
+    verbosity: 3
 
 - name: Pull ansible-navigator-demo-ee podman image 0.6.0
   containers.podman.podman_image:
@@ -76,7 +75,7 @@
 - name: Debug - Mostrar resultado da pull do podman image 0.6.0
   debug:
     var: podman_image_0_6_0_result
-    verbosity: 2
+    verbosity: 3
 
 - name: Run source command as user
   ansible.builtin.shell: source ~/.profile
@@ -90,4 +89,4 @@
 - name: Debug - Mostrar resultado do source ~/.profile
   debug:
     var: source_result
-    verbosity: 2
+    verbosity: 3

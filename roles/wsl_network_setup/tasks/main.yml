@@ -18,7 +18,7 @@
       Directory: {{ item.item }}
       Result: {{ item.result }}
     loop: "{{ create_dirs_result.results }}"
-    verbosity: 2
+    verbosity: 3
 
 # -  name: Copy resolv.conf to default settings
 #   ansible.builtin.copy:
@@ -50,7 +50,7 @@
       Destination: {{ item.item.dest }}
       Result: {{ item.result }}
     loop: "{{ copy_wsl_result.results }}"
-    verbosity: 2
+    verbosity: 3
 
 - name: Copy wsl.conf to actual settings
   ansible.builtin.template:
@@ -66,4 +66,4 @@
       Destination: {{ item.item.dest }}
       Result: {{ item.result }}
     loop: "{{ copy_wsl_result.results }}"
-    verbosity: 2
+    verbosity: 3

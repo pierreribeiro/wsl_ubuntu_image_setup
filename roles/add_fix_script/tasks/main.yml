@@ -14,7 +14,7 @@
       Directory: {{ item.item }}
       Result: {{ item.result }}
     loop: "{{ create_ansible_dir_result.results }}"
-    verbosity: 2
+    verbosity: 3
 
 - name: Copy Fix Script To Ansible Directory
   ansible.builtin.template:
@@ -32,4 +32,4 @@
       Destination: {{ item.item.dest }}
       Result: {{ item.result }}
     loop: "{{ copy_fix_script_result.results }}"
-    verbosity: 2
+    verbosity: 3

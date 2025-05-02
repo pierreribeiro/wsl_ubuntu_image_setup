@@ -54,7 +54,11 @@ if [[ "$confirm" =~ ^[Yy]$ ]]; then
     echo "Executando o playbook com os parâmetros fornecidos..."
     export ANSIBLE_STDOUT_CALLBACK=ansible.posix.debug
     export ANSIBLE_LOG_PATH=/tmp/ansible.log
-    ansible-playbook playbook.yml --extra-vars "user=$user_param group=$group_param" -vv
+    ansible-playbook playbook.yml --extra-vars "user=$user_param group=$group_param" -vvv
+    echo "Playbook executado com sucesso."
+    echo "Verificando o log do Ansible..."
+    cat /tmp/ansible.log
+    echo "Processo concluído."
 else
     echo "Execução abortada pelo usuário."
     exit 1
