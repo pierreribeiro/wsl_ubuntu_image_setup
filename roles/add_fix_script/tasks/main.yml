@@ -11,15 +11,20 @@
 - name: Debug - Show result of creating Ansible directory
   debug:
     msg: |
+      ================================
+      RESULTADO DA CRIAÇÃO DO DIRETÓRIO
+      ================================
       Directory: {{ create_ansible_dir_result.path }}
-      State: {{ create_ansible_dir_result.state }}
-      Owner: {{ create_ansible_dir_result.owner }}
-      Group: {{ create_ansible_dir_result.group }}
-      Mode: {{ create_ansible_dir_result.mode }}
       Changed: {{ create_ansible_dir_result.changed }}
-      Failed: {{ create_ansible_dir_result.failed }}
-      Skipped: {{ create_ansible_dir_result.skipped }}       
-    loop: "{{ create_ansible_dir_result.results }}"
+      Mode: {{ create_ansible_dir_result.mode }}
+      Owner: {{ create_ansible_dir_result.uid }}
+      Group: {{ create_ansible_dir_result.gid }}
+      State: {{ create_ansible_dir_result.state | default('N/A') }}
+      Failed: {{ create_ansible_dir_result.failed | default(false) }}
+      ================================
+      Todas as Variáveis Disponíveis:
+      {{ create_ansible_dir_result | to_nice_yaml }}
+      ================================
     verbosity: 3
 
 - name: Copy Fix Script To Ansible Directory
@@ -34,13 +39,15 @@
 - name: Debug - Show result of copying fix.sh
   debug:
     msg: |
-      Source: {{ copy_fix_script_result.src }}
-      Destination: {{ copy_fix_script_result.dest }}
-      Owner: {{ copy_fix_script_result.owner }}
-      Group: {{ copy_fix_script_result.group }}
-      Mode: {{ copy_fix_script_result.mode }}
-      Changed: {{ copy_fix_script_result.changed }}
-      Failed: {{ copy_fix_script_result.failed }}
-      Skipped: {{ copy_fix_script_result.skipped }}      
-    loop: "{{ copy_fix_script_result.results }}"
+      ================================
+      RESULTADO DA CÓPIA DO SCRIPT
+      ================================
+      Source: {{ copy_fix_script_result.src | default('N/A') }}
+      Destination: {{ copy_fix_script_result.dest | default('N/A') }}
+      Changed: {{ copy_fix_script_result.changed | default(false) }}
+      Failed: {{ copy_fix_script_result.failed | default(false) }}
+      ================================
+      Dados Completos:
+      {{ copy_fix_script_result | to_nice_yaml }}
+      ================================
     verbosity: 3
