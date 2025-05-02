@@ -1,6 +1,5 @@
 ---
-- name: Ensure admin group exists
-  debugger: always
+- name: Ensure admin group exists  
   ansible.builtin.group:
     name: "{{ create_main_user_v_admin_group }}"
     state: present
