@@ -70,10 +70,14 @@
 
 - name: Download and add GPG key
   ansible.builtin.shell: |
-    wget -qO - https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_{{ install_podman_for_ubuntu_v_os_version }}/Release.key | \
-    sudo apt-key add -
+    curl -fsSL https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_{{ install_podman_for_ubuntu_v_os_version }}/Release.key | \
+    gpg --dearmor | \
+    sudo tee /etc/apt/keyrings/devel_kubic_libcontainers_stable.gpg > /dev/null && \
+    echo "deb [signed-by=/etc/apt/keyrings/devel_kubic_libcontainers_stable.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ install_podman_for_ubuntu_v_os_version }}/ /" | \
+    sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
   args:
     executable: /bin/bash
+    creates: /etc/apt/keyrings/devel_kubic_libcontainers_stable.gpg
   register: gpg_key_result
 
 - name: Debug - Mostrar resultado da configuração do repositório
@@ -82,8 +86,10 @@
       ================================
       RESULTADO DA CONFIGURAÇÃO DO REPO
       ================================
-      Repo: {{ podman_repo_result | default('N/A') }}
-      GPG Key: {{ gpg_key_result | default('N/A') }}
+      GPG Key: 
+        Changed: {{ gpg_key_result.changed | default(false) }}
+        RC: {{ gpg_key_result.rc | default('N/A') }}
+        Stderr: {{ gpg_key_result.stderr | default('N/A') }}
       ================================
     verbosity: 3
 
