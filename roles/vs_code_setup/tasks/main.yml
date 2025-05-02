@@ -16,19 +16,24 @@
 - name: Debug - Show result of creating directories
   debug:
     msg: |
-      ================================
-      RESULTADO DA CRIAÇÃO DO DIRETÓRIO
-      ================================
-      Diretório: {{ item.item }}
-      Status da Mudança: {{ item.changed | default(false) }}
-      Modo: {{ item.mode | default('N/A') }}
-      Proprietário: {{ item.uid | default('N/A') }}
-      Grupo: {{ item.gid | default('N/A') }}
-      Path: {{ item.path | default('N/A') }}
-      Estado: {{ item.state | default('N/A') }}
-      Falhou?: {{ item.failed | default(false) }}
-      ================================
-    loop: "{{ create_dirs_result.results }}"
+      ============================================================
+      RESULTADO DA CRIAÇÃO DOS DIRETÓRIOS
+      ============================================================
+      Status:
+        Diretórios: {{ create_dirs_result.results | map(attribute='item') | list }}
+        Paths: {{ create_dirs_result.results | map(attribute='path') | list }}
+        Alterados: {{ create_dirs_result.results | map(attribute='changed') | list }}
+      
+      Permissões:
+        Proprietários: {{ create_dirs_result.results | map(attribute='uid') | list }}
+        Grupos: {{ create_dirs_result.results | map(attribute='gid') | list }}
+        Modos: {{ create_dirs_result.results | map(attribute='mode') | list }}
+      
+      Resultados:
+        Sucessos: {{ create_dirs_result.results | rejectattr('failed') | list | length }}
+        Falhas: {{ create_dirs_result.results | selectattr('failed') | list | length }}
+        Estado: {{ create_dirs_result.results | map(attribute='state') | list }}
+      ============================================================
     verbosity: 3
 
 - name: Copy extensions.json to default settings
